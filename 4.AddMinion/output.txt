@@ -1,0 +1,4 @@
+Town Eindhoven was added to the database.
+Villain  Jimmy was added to the database.
+Successfully added Carry to be minion of  Jimmy.
+Connection check: Connected!
