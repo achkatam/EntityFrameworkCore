@@ -9,7 +9,6 @@
     public class StartUp
     {
 
-        //CHECK THE 2ND INPUT
         static void Main(string[] args)
         {
             var writer = new FileWriter();
@@ -75,6 +74,9 @@
                 addMinionToVillainCmd.ExecuteNonQuery();
 
                 sb.AppendLine($"Successfully added {minionName} to be minion of {villainName}.");
+
+                //If you want just to test the code, comment the following command:
+                sqlTransaction.Commit();
             }
             catch (Exception e)
             {
@@ -110,6 +112,7 @@
                 addTownCmd.Parameters.AddWithValue("@townName", townName);
 
                 addTownCmd.ExecuteNonQuery();
+              
 
                 sb.AppendLine($"Town {townName} was added to the database.");
 
