@@ -3,6 +3,6 @@
     public static class Config
     {
         public const string ConnectionString =
-                        @"Server=localhost\sqltest,1433;Database=MinionsDB;User=achkatam;Password=yourStrong(!)Password";
+                        @"Server=localhost\sqltest,1433;Database=MinionsDB;User=yourAcc;Password=yourPass";
     }
 }
