@@ -1,9 +1,9 @@
-﻿using System;
-
-namespace SoftUni.Data
+﻿namespace SoftUni.Data
 {
+    using System;
     using Microsoft.EntityFrameworkCore;
     using Models;
+    using Config;
     public partial class SoftUniContext : DbContext, IDisposable
     {
         public SoftUniContext()
@@ -26,7 +26,7 @@ namespace SoftUni.Data
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Server=localhost\\sqltest,1433;Database=SoftUni;User=achkatam;Password=yourStrong(!)Password;TrustServerCertificate=True;");
+                optionsBuilder.UseSqlServer(Config.ConnectionString);
             }
         }
 
@@ -111,6 +111,6 @@ namespace SoftUni.Data
         }
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
-      
+
     }
 }

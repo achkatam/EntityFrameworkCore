@@ -2,6 +2,7 @@
 {
     using Microsoft.EntityFrameworkCore;
     using Models;
+    using Config;
     public partial class SoftUniContext : DbContext
     {
         public SoftUniContext()
@@ -24,7 +25,7 @@
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Server=localhost\\sqltest,1433;Database=SoftUni;User=achkatam;Password=yourStrong(!)Password;TrustServerCertificate=True;");
+                optionsBuilder.UseSqlServer(Config.ConnectionString);
             }
         }
 

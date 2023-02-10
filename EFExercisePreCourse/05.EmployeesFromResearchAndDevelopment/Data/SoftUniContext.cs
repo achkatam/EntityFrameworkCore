@@ -1,9 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
 
 namespace SoftUni.Data
 {
+    using Microsoft.EntityFrameworkCore;
     using Models;
-    public partial class SoftUniContext : DbContext
+    public partial class SoftUniContext : DbContext, IDisposable
     {
         public SoftUniContext()
         {
@@ -110,5 +111,6 @@ namespace SoftUni.Data
         }
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+      
     }
 }
