@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\4.EmployeesWithSalaryOver50000\4.EmployeesWithSalaryOver50000.csproj" />
+  
   </ItemGroup>
 
 </Project>
