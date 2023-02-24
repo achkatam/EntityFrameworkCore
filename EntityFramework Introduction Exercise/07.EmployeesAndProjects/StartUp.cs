@@ -1,13 +1,12 @@
-﻿using System.Transactions;
+﻿using System.ComponentModel;
+using System.Globalization;
 
 namespace SoftUni
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Text;
     using Data;
-    using Models;
 
     public class StartUp
     {
@@ -27,10 +26,7 @@ namespace SoftUni
 
             var allEmployees = context
                 .Employees
-                .Where(e => e.EmployeesProjects
-                    .Any(ep => ep.Project.StartDate.Year >= 2001
-                               && ep.Project.StartDate.Year <= 2003))
-                .Take(10)
+             
                 .Select(e => new
                 {
                     e.FirstName,
@@ -38,6 +34,7 @@ namespace SoftUni
                     ManagerFirstName = e.Manager.FirstName,
                     ManagerLastName = e.Manager.LastName,
                     AllProjects = e.EmployeesProjects
+                        .Where(e => e.Project.StartDate.Year >= 2001 && e.Project.StartDate.Year <= 2003)
                         .Select(ep => new
                         {
                             ep.Project.Name,
@@ -52,12 +49,14 @@ namespace SoftUni
                 sb
                     .AppendLine($"{e.FirstName} {e.LastName} - Manager: {e.ManagerFirstName} {e.ManagerLastName}");
 
+                string datePattern = "M/d/yyyy h:mm:ss tt";
+
                 foreach (var p in e.AllProjects)
                 {
-                    var endDate = p.EndDate.HasValue ? p.EndDate.Value.ToString("M/d/yyyy h:mm:ss tt") : "not finished";
+                    var endDate = p.EndDate.HasValue ? p.EndDate.Value.ToString(datePattern, CultureInfo.InvariantCulture) : "not finished";
 
                     sb
-                        .AppendLine($"--{p.Name} - {p.StartDate} - {endDate}");
+                        .AppendLine($"--{p.Name} - {p.StartDate.ToString(datePattern, CultureInfo.InvariantCulture)} - {endDate}");
                 }
             }
 
