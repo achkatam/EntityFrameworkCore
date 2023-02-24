@@ -37,7 +37,7 @@
             foreach (var e in employees)
             {
                 sb
-                    .AppendLine($"{e.FirstName} {e.LastName} from {e.DepartmentName} - {e.Salary:f2}");
+                    .AppendLine($"{e.FirstName} {e.LastName} from {e.DepartmentName} - ${e.Salary:f2}");
             }
 
             return sb.ToString().TrimEnd();
