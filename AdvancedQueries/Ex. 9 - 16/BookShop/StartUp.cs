@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using System.Net.Http.Headers;
 
 namespace BookShop;
 
@@ -55,7 +56,10 @@ public class StartUp
         //int result = CountBooks(db, numberOfChars);
 
         // 12. Total Book Copies
-        string result = CountCopiesByAuthor(db);
+        // string result = CountCopiesByAuthor(db);
+
+        // 13. Profit by Category
+        string result = GetTotalProfitByCategory(db);
 
         Console.WriteLine(result);
     }
@@ -217,6 +221,30 @@ public class StartUp
         {
             sb
                 .AppendLine($"{book.AuthorName} - {book.TotalCopies}");
+        }
+
+        return sb.ToString().TrimEnd();
+    }
+
+    // 13. Profit by Category
+    public static string GetTotalProfitByCategory(BookShopContext dbContext)
+    {
+        StringBuilder sb = new StringBuilder();
+
+        var profits = dbContext.Categories
+            .Select(c => new
+            {
+                Name = c.Name,
+                Profit = c.CategoryBooks.Sum(cb => cb.Book.Price * cb.Book.Copies)
+            })
+            .OrderByDescending(c => c.Profit)
+            .ThenBy(c => c.Name)
+            .ToArray();
+
+        foreach (var profit in profits)
+        {
+            sb
+                .AppendLine($"{profit.Name} ${profit.Profit:f2}");
         }
 
         return sb.ToString().TrimEnd();
