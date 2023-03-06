@@ -2,10 +2,12 @@
 
 namespace BookShop;
 
+using System.Text;
 using BookShop.Models;
 using Data;
 using Initializer;
 using Models.Enums;
+using static System.Reflection.Metadata.BlobBuilder;
 
 public class StartUp
 {
@@ -49,8 +51,11 @@ public class StartUp
         //string result = GetBooksByAuthor(db, input);
 
         // 11. Count Books
-        int numberOfChars = int.Parse(Console.ReadLine());
-        int result = CountBooks(db, numberOfChars);
+        //int numberOfChars = int.Parse(Console.ReadLine());
+        //int result = CountBooks(db, numberOfChars);
+
+        // 12. Total Book Copies
+        string result = CountCopiesByAuthor(db);
 
         Console.WriteLine(result);
     }
@@ -192,5 +197,28 @@ public class StartUp
             .ToArray();
 
         return books.Count();
+    }
+
+    // 12. Total Book Copies
+    public static string CountCopiesByAuthor(BookShopContext dbContext)
+    {
+        StringBuilder sb = new StringBuilder();
+
+        var books = dbContext.Authors
+            .Select(a => new
+            {
+                AuthorName = $"{a.FirstName} {a.LastName}",
+                TotalCopies = a.Books.Sum(x => x.Copies)
+            })
+            .OrderByDescending(x => x.TotalCopies)
+            .ToArray();
+
+        foreach (var book in books)
+        {
+            sb
+                .AppendLine($"{book.AuthorName} - {book.TotalCopies}");
+        }
+
+        return sb.ToString().TrimEnd();
     }
 }
