@@ -44,9 +44,13 @@ public class StartUp
         // string input = Console.ReadLine();
         // string result = GetBookTitlesContaining(db, input);
 
-        string input = Console.ReadLine();
-        string result = GetBooksByAuthor(db, input);
+        // 10.	Book Search by Author
+        //string input = Console.ReadLine();
+        //string result = GetBooksByAuthor(db, input);
 
+        // 11. Count Books
+        int numberOfChars = int.Parse(Console.ReadLine());
+        int result = CountBooks(db, numberOfChars);
 
         Console.WriteLine(result);
     }
@@ -177,5 +181,16 @@ public class StartUp
             .ToArray();
 
         return string.Join(Environment.NewLine, books);
+    }
+
+    // 11. Count Books
+    public static int CountBooks(BookShopContext dbContext, int lengthCheck)
+    {
+        string[] books = dbContext.Books
+            .Where(b => b.Title.Length > lengthCheck)
+            .Select(b => b.Title)
+            .ToArray();
+
+        return books.Count();
     }
 }
