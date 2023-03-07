@@ -62,9 +62,12 @@ public class StartUp
         // string result = GetTotalProfitByCategory(db);
 
         // 14. Most Recent Books
-        string result = GetMostRecentBooks(db);
+       // string result = GetMostRecentBooks(db);
 
         // 15. Increase Prices
+
+        // 16. Remove Books
+        int result = RemoveBooks(db);
 
         Console.WriteLine(result);
     }
@@ -303,5 +306,18 @@ public class StartUp
         }
 
         dbContext.SaveChanges();
+    }
+
+    // 16. Remove Books
+    public static int RemoveBooks(BookShopContext dbContext)
+    {
+        var books = dbContext.Books
+            .Where(b => b.Copies < 4200)
+            .ToArray();
+
+        dbContext.RemoveRange(books);
+        dbContext.SaveChanges();
+
+        return books.Count();
     }
 }
