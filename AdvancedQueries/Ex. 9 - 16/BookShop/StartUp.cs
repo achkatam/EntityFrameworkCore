@@ -64,6 +64,7 @@ public class StartUp
         // 14. Most Recent Books
         string result = GetMostRecentBooks(db);
 
+        // 15. Increase Prices
 
         Console.WriteLine(result);
     }
@@ -288,5 +289,19 @@ public class StartUp
         }
 
         return sb.ToString().TrimEnd();
+    }
+
+    // 15. Increase Prices
+    public static void IncreasePrices(BookShopContext dbContext)
+    {
+        var books = dbContext.Books
+            .Where(b => b.ReleaseDate.Value.Year < 2010);
+
+        foreach (var book in books)
+        {
+            book.Price += 5;
+        }
+
+        dbContext.SaveChanges();
     }
 }
