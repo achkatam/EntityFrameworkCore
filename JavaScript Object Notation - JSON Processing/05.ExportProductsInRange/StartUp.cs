@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper.QueryableExtensions;
+using Microsoft.EntityFrameworkCore;
+using ProductShop.DTOs.Export;
 
 namespace ProductShop;
 
@@ -34,13 +36,13 @@ public class StartUp
         // string result = ImportCategories(dbContext, inputJson);
 
         // 04.ImportCategoriesProducts
-       // string inputJson = File.ReadAllText(@"../../../Datasets/categories-products.json");
+        // string inputJson = File.ReadAllText(@"../../../Datasets/categories-products.json");
         //string result = ImportCategoryProducts(dbContext, inputJson);
 
         // 05. ExportProducts in Range
         string result = GetProductsInRange(dbContext);
 
-        
+
         Console.WriteLine(result);
     }
 
@@ -117,32 +119,46 @@ public class StartUp
         ICollection<CategoryProduct> cps = new HashSet<CategoryProduct>();
 
         foreach (var categoryProduct in cprDtos)
-        { 
+        {
             var catProd = mapper.Map<CategoryProduct>(categoryProduct);
             cps.Add(catProd);
         }
 
         context.CategoriesProducts.AddRange(cps);
-         context.SaveChanges();
+        context.SaveChanges();
 
         return $"Successfully imported {cps.Count}";
     }
 
     public static string GetProductsInRange(ProductShopContext dbContext)
     {
-        var products = dbContext.Products
+        // using Anonymous objects
+        //var products = dbContext.Products
+        //    .Where(p => p.Price >= 500 && p.Price <= 1000)
+        //    .OrderBy(p => p.Price)
+        //    .Select(p => new
+        //    {
+        //        name = p.Name,
+        //        price = p.Price,
+        //        seller = p.Seller.FirstName + " " + p.Seller.LastName
+        //    })
+        //    .AsNoTracking()
+        //    .ToArray();
+
+        // return JsonConvert.SerializeObject(products, Formatting.Indented);
+
+        // using DTO + AutoMapper
+
+        IMapper mapper = CreateMapper();
+
+        ExportProductInRangeDto[] productDtos = dbContext.Products
             .Where(p => p.Price >= 500 && p.Price <= 1000)
             .OrderBy(p => p.Price)
-            .Select(p => new
-            {
-                name = p.Name,
-                price = p.Price,
-                seller = p.Seller.FirstName + " " + p.Seller.LastName
-            })
             .AsNoTracking()
+            .ProjectTo<ExportProductInRangeDto>(mapper.ConfigurationProvider)
             .ToArray();
 
-        return JsonConvert.SerializeObject(products, Formatting.Indented);
+        return JsonConvert.SerializeObject(productDtos, Formatting.Indented);
     }
     private static IMapper CreateMapper()
     {
