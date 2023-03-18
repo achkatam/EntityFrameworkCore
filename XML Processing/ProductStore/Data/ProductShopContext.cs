@@ -24,7 +24,8 @@
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer(Configuration.ConnectionString);
+                optionsBuilder.UseSqlServer(Configuration.ConnectionString)
+                    .UseLazyLoadingProxies();
             }
         }
 
@@ -46,6 +47,11 @@
                       .WithOne(x => x.Seller)
                       .HasForeignKey(x => x.SellerId)
                       .OnDelete(DeleteBehavior.NoAction);
+            });
+
+            modelBuilder.Entity<Product>(entity =>
+            {
+                entity.Property(x => x.BuyerId).IsRequired(false);
             });
         }
     }

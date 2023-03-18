@@ -9,6 +9,10 @@ using Models;
     {
         public ProductShopProfile()
         {
+            // User
             this.CreateMap<ImportUserDto, User>();
+
+            //Product
+            this.CreateMap<ImportProductDto, Product>();
         }
     }

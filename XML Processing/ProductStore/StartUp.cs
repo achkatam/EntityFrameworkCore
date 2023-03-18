@@ -12,8 +12,8 @@ public class StartUp
     {
         ProductShopContext dbContext = new ProductShopContext();
 
-        string inputXml = File.ReadAllText("../../../Datasets/users.xml");
-        string result = ImportUsers(dbContext, inputXml);
+        string inputXml = File.ReadAllText("../../../Datasets/products.xml");
+        string result = ImportProducts(dbContext, inputXml);
 
         Console.WriteLine(result);
     }
@@ -35,9 +35,31 @@ public class StartUp
         }
 
         dbContext.AddRange(users);
-        // dbContext.SaveChanges();
+        dbContext.SaveChanges();
 
         return $"Successfully imported {users.Count}";
+    }
+    public static string ImportProducts(ProductShopContext dbContext, string inputXml)
+    {
+        //IMapper mapper = CreateMapper();
+        XmlHelper xmlHelper = new XmlHelper(); 
+
+        var productDtos = xmlHelper.Deserializer<ImportProductDto[]>(inputXml, "Products");
+
+        Product[] products = productDtos
+            .Select(p => new Product()
+            {
+                Name = p.Name,
+                Price = p.Price,
+                BuyerId = p.BuyerId == 0 ? null : p.BuyerId,
+                SellerId = p.SellerId
+            })
+            .ToArray();
+
+        dbContext.Products.AddRange(products);
+        dbContext.SaveChanges();
+
+        return $"Successfully imported {products.Count()}";
     }
 
     private static IMapper CreateMapper()
