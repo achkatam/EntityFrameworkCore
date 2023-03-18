@@ -12,8 +12,8 @@ public class StartUp
     {
         ProductShopContext dbContext = new ProductShopContext();
 
-        string inputXml = File.ReadAllText("../../../Datasets/products.xml");
-        string result = ImportProducts(dbContext, inputXml);
+        string inputXml = File.ReadAllText("../../../Datasets/categories-products.xml");
+        string result = ImportCategoryProducts(dbContext, inputXml);
 
         Console.WriteLine(result);
     }
@@ -34,7 +34,7 @@ public class StartUp
             users.Add(user);
         }
 
-        dbContext.AddRange(users);
+        dbContext.Users.AddRange(users);
         dbContext.SaveChanges();
 
         return $"Successfully imported {users.Count}";
@@ -42,7 +42,7 @@ public class StartUp
     public static string ImportProducts(ProductShopContext dbContext, string inputXml)
     {
         //IMapper mapper = CreateMapper();
-        XmlHelper xmlHelper = new XmlHelper(); 
+        XmlHelper xmlHelper = new XmlHelper();
 
         var productDtos = xmlHelper.Deserializer<ImportProductDto[]>(inputXml, "Products");
 
@@ -60,6 +60,59 @@ public class StartUp
         dbContext.SaveChanges();
 
         return $"Successfully imported {products.Count()}";
+    }
+
+    public static string ImportCategories(ProductShopContext dbContext, string inputXml)
+    {
+        XmlHelper xmlHelper = new XmlHelper();
+        IMapper mapper = CreateMapper();
+
+        var categoryDtos = xmlHelper.Deserializer<ImportCategoryDto[]>(inputXml, "Categories");
+
+        ICollection<Category> categories = new HashSet<Category>();
+
+        foreach (var categoryDto in categoryDtos.Where(x => x.Name is not null))
+        {
+            Category category = mapper.Map<Category>(categoryDto);
+
+            categories.Add(category);
+        }
+       
+        dbContext.Categories.AddRange(categories);
+        // dbContext.SaveChanges();
+
+        return $"Successfully imported {categories.Count}";
+    }
+
+    public static string ImportCategoryProducts(ProductShopContext context, string inputXml)
+    {
+        IMapper mapper = CreateMapper();
+        XmlHelper xmlHelper = new XmlHelper();
+
+        var categoryProductDtos = xmlHelper.Deserializer<ImportCategoryProductDto[]>(inputXml, "CategoryProducts");
+
+        ICollection<CategoryProduct> categoryProducts = new HashSet<CategoryProduct>();
+
+        foreach (var dto in categoryProductDtos.Where(x=> x.CategoryId != 0 && x.ProductId != 0))
+        {
+            CategoryProduct categoryProduct = mapper.Map<CategoryProduct>(dto);
+
+            categoryProducts.Add(categoryProduct);
+        }
+
+        //var categoryProducts = categoryProductDtos.Where(x => x.CategoryId != 0 &&
+        //                                                      x.ProductId != 0)
+        //    .Select(cp => new CategoryProduct()
+        //    {
+        //        CategoryId = cp.CategoryId,
+        //        ProductId = cp.ProductId
+        //    })
+        //    .ToArray();
+
+        context.CategoryProducts.AddRange(categoryProducts);
+        context.SaveChanges();
+
+        return $"Successfully imported {categoryProducts.Count()}";
     }
 
     private static IMapper CreateMapper()
