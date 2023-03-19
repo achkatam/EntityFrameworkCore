@@ -1,10 +1,6 @@
-﻿namespace ProductShop;
+﻿namespace ProductShop; 
 
-using System.Text;
-using System.Xml.Serialization;
 using ProductShop.DTOs.Export;
-
-
 using DTOs.Import;
 using Models;
 using Utilities;
@@ -24,8 +20,8 @@ public class StartUp
 
 
         // Export data
-        string xmlResult = GetProductsInRange(dbContext);
-        File.WriteAllText(@"../../../Results/products-in-range.xml", xmlResult);
+        string xmlResult = GetSoldProducts(dbContext);
+        File.WriteAllText(@"../../../Results/users-sold-products.xml", xmlResult);
 
         Console.WriteLine(xmlResult);
     }
@@ -136,19 +132,31 @@ public class StartUp
 
         return xmlHelper.Serialize<ExportProductDto[]>(products, "Products");
     }
-    private static string Serializer<T>(T dataTransferObjects, string xmlRootAttributeName)
+
+    public static string GetSoldProducts(ProductShopContext context)
     {
-        XmlSerializer serializer = new XmlSerializer(typeof(T), new XmlRootAttribute(xmlRootAttributeName));
+        XmlHelper xmlHelper = new XmlHelper();
 
-        StringBuilder sb = new StringBuilder();
-        using var write = new StringWriter(sb);
+        var users = context.Users
+            .Where(u => u.ProductsSold.Count >= 1)
+            .OrderBy(u => u.LastName)
+            .ThenBy(u => u.FirstName)
+            .Take(5)
+            .Select(u => new ExportSoldProductDto()
+            {
+                FirstName = u.FirstName,
+                LastName = u.LastName,
+                SoldProducts = u.ProductsSold
+                    .Select(p => new ProductDto()
+                    {
+                        Name = p.Name,
+                        Price = p.Price
+                    })
+                    .ToArray()
+            })
+            .ToArray();
 
-        XmlSerializerNamespaces xmlNamespaces = new XmlSerializerNamespaces();
-        xmlNamespaces.Add(string.Empty, string.Empty);
-
-        serializer.Serialize(write, dataTransferObjects, xmlNamespaces);
-
-        return sb.ToString();
+        return xmlHelper.Serialize<ExportSoldProductDto[]>(users, "Users");
     }
 
     private static IMapper CreateMapper()
