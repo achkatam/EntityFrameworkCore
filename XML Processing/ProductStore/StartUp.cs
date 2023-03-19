@@ -1,4 +1,4 @@
-﻿namespace ProductShop; 
+﻿namespace ProductShop;
 
 using ProductShop.DTOs.Export;
 using DTOs.Import;
@@ -20,8 +20,8 @@ public class StartUp
 
 
         // Export data
-        string xmlResult = GetCategoriesByProductsCount(dbContext);
-        File.WriteAllText(@"../../../Results/categories-by-products", xmlResult);
+        string xmlResult = GetUsersWithProducts(dbContext);
+        File.WriteAllText(@"../../../Results/users-and-products.xml", xmlResult);
 
         Console.WriteLine(xmlResult);
     }
@@ -176,6 +176,43 @@ public class StartUp
             .ToArray();
 
         return xmlHelper.Serialize<ExportCategoryByProduct[]>(categories, "Categories");
+    }
+
+    public static string GetUsersWithProducts(ProductShopContext context)
+    {
+        XmlHelper xmlHelper = new XmlHelper();
+
+        var allUsers = context.Users
+            .Where(x => x.ProductsSold.Any())
+            .OrderByDescending(x => x.ProductsSold.Count)
+            .Take(10)
+            .Select(x => new UserDto()
+            {
+                FirstName = x.FirstName,
+                LastName = x.LastName,
+                Age = x.Age,
+                SoldProducts = new SoldProducts()
+                {
+                    Count = x.ProductsSold.Count,
+                    Products = x.ProductsSold
+                        .Select(x => new ProductDto()
+                        {
+                            Name = x.Name,
+                            Price = x.Price
+                        })
+                        .OrderByDescending(x => x.Price)
+                        .ToArray()
+                }
+            })
+            .ToArray();
+
+        var exportUsers = new ExportUserAndProductsDto()
+        {
+            Count = context.Users.Count(x => x.ProductsSold.Any()),
+            Users = allUsers
+        };
+
+        return xmlHelper.Serialize<ExportUserAndProductsDto>(exportUsers, "Users");
     }
 
     private static IMapper CreateMapper()

@@ -1,4 +1,5 @@
 ﻿namespace ProductShop.DTOs.Export;
+
 using System.Xml.Serialization;
 
 [XmlType("Product")]
