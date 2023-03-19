@@ -20,8 +20,8 @@ public class StartUp
 
 
         // Export data
-        string xmlResult = GetSoldProducts(dbContext);
-        File.WriteAllText(@"../../../Results/users-sold-products.xml", xmlResult);
+        string xmlResult = GetCategoriesByProductsCount(dbContext);
+        File.WriteAllText(@"../../../Results/categories-by-products", xmlResult);
 
         Console.WriteLine(xmlResult);
     }
@@ -157,6 +157,25 @@ public class StartUp
             .ToArray();
 
         return xmlHelper.Serialize<ExportSoldProductDto[]>(users, "Users");
+    }
+
+    public static string GetCategoriesByProductsCount(ProductShopContext context)
+    {
+        XmlHelper xmlHelper = new XmlHelper();
+
+        var categories = context.Categories
+            .Select(c => new ExportCategoryByProduct()
+            {
+                Name = c.Name,
+                Count = c.CategoryProducts.Count,
+                AveragePrice = c.CategoryProducts.Average(p => p.Product.Price),
+                TotalRevenue = c.CategoryProducts.Sum(p => p.Product.Price)
+            })
+            .OrderByDescending(c => c.Count)
+            .ThenBy(c => c.TotalRevenue)
+            .ToArray();
+
+        return xmlHelper.Serialize<ExportCategoryByProduct[]>(categories, "Categories");
     }
 
     private static IMapper CreateMapper()
