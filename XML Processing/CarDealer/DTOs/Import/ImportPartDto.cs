@@ -5,8 +5,7 @@ using System.Xml.Serialization;
 [XmlType("Part")]
 public class ImportPartDto
 {
-    [XmlElement("name")]
-    public string Name { get; set; } = null!;
+    [XmlElement("name")] public string Name { get; set; } = null!;
 
     [XmlElement("price")]
     public decimal Price { get; set; }

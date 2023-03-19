@@ -1,8 +1,8 @@
-﻿namespace CarDealer;
+﻿namespace CarDealer; 
 
+using DTOs.Import.Customer;
 using DTOs.Import;
 using Models;
-
 using Utilities;
 using AutoMapper;
 using Data;
@@ -13,8 +13,8 @@ public class StartUp
     {
         CarDealerContext dbContext = new CarDealerContext();
 
-        string filePath = File.ReadAllText("../../../Datasets/parts.xml");
-        string result = ImportParts(dbContext, filePath);
+        string filePath = File.ReadAllText("../../../Datasets/customers.xml");
+        string result = ImportCustomers(dbContext, filePath);
 
         Console.WriteLine(result);
     }
@@ -59,10 +59,46 @@ public class StartUp
             .ToList();
 
         dbContext.Parts.AddRange(parts);
-        dbContext.SaveChanges();
+        // dbContext.SaveChanges();
 
         return $"Successfully imported {parts.Count}";
     }
+
+    public static string? ImportCars(CarDealerContext dbContext, string inputXml)
+    {
+        return null;
+    }
+
+    public static string ImportCustomers(CarDealerContext dbContext, string inputXml)
+    {
+        IMapper mapper = CreateMapper();
+        XmlHelper xmlHelper = new XmlHelper();
+
+        var customerDto = xmlHelper.Deserializer<ImportCustomerDto[]>(inputXml, "Customers");
+
+        var customers = new HashSet<Customer>();
+
+        foreach (var dto in customerDto)
+        {
+            Customer customer = mapper.Map<Customer>(dto);
+
+            customers.Add(customer);
+        }
+
+        //var customers = customerDto
+        //    .Select(c => new Customer()
+        //    {
+        //        Name = c.Name,
+        //        BirthDate = c.BirthDate,
+        //        IsYoungDriver = c.IsYoungDriver
+        //    })
+        //    .ToArray();
+
+        dbContext.Customers.AddRange(customers);
+         dbContext.SaveChanges();
+
+        return $"Successfully imported {customers.Count()}";
+    } 
 
     private static IMapper CreateMapper()
         => new Mapper(new MapperConfiguration(cfg =>
