@@ -1,5 +1,10 @@
 ﻿namespace ProductShop;
 
+using System.Text;
+using System.Xml.Serialization;
+using ProductShop.DTOs.Export;
+
+
 using DTOs.Import;
 using Models;
 using Utilities;
@@ -12,10 +17,17 @@ public class StartUp
     {
         ProductShopContext dbContext = new ProductShopContext();
 
-        string inputXml = File.ReadAllText("../../../Datasets/categories-products.xml");
-        string result = ImportCategoryProducts(dbContext, inputXml);
 
-        Console.WriteLine(result);
+        // Import Data 
+        //string inputXml = File.ReadAllText("../../../Datasets/categories-products.xml");
+        //string result = ImportCategoryProducts(dbContext, inputXml);
+
+
+        // Export data
+        string xmlResult = GetProductsInRange(dbContext);
+        File.WriteAllText(@"../../../Results/products-in-range.xml", xmlResult);
+
+        Console.WriteLine(xmlResult);
     }
 
     public static string ImportUsers(ProductShopContext dbContext, string inputXml)
@@ -77,7 +89,7 @@ public class StartUp
 
             categories.Add(category);
         }
-       
+
         dbContext.Categories.AddRange(categories);
         // dbContext.SaveChanges();
 
@@ -93,26 +105,50 @@ public class StartUp
 
         ICollection<CategoryProduct> categoryProducts = new HashSet<CategoryProduct>();
 
-        foreach (var dto in categoryProductDtos.Where(x=> x.CategoryId != 0 && x.ProductId != 0))
+        foreach (var dto in categoryProductDtos.Where(x => x.CategoryId != 0 && x.ProductId != 0))
         {
             CategoryProduct categoryProduct = mapper.Map<CategoryProduct>(dto);
 
             categoryProducts.Add(categoryProduct);
         }
 
-        //var categoryProducts = categoryProductDtos.Where(x => x.CategoryId != 0 &&
-        //                                                      x.ProductId != 0)
-        //    .Select(cp => new CategoryProduct()
-        //    {
-        //        CategoryId = cp.CategoryId,
-        //        ProductId = cp.ProductId
-        //    })
-        //    .ToArray();
-
         context.CategoryProducts.AddRange(categoryProducts);
         context.SaveChanges();
 
         return $"Successfully imported {categoryProducts.Count()}";
+    }
+
+    public static string GetProductsInRange(ProductShopContext context)
+    {
+        XmlHelper xmlHelper = new XmlHelper();
+
+        var products = context.Products
+            .Where(p => p.Price >= 500 && p.Price <= 1000)
+            .OrderBy(p => p.Price)
+            .Take(10)
+            .Select(p => new ExportProductDto()
+            {
+                Name = p.Name,
+                Price = p.Price,
+                Buyer = $"{p.Buyer.FirstName} {p.Buyer.LastName}"
+            })
+            .ToArray();
+
+        return xmlHelper.Serialize<ExportProductDto[]>(products, "Products");
+    }
+    private static string Serializer<T>(T dataTransferObjects, string xmlRootAttributeName)
+    {
+        XmlSerializer serializer = new XmlSerializer(typeof(T), new XmlRootAttribute(xmlRootAttributeName));
+
+        StringBuilder sb = new StringBuilder();
+        using var write = new StringWriter(sb);
+
+        XmlSerializerNamespaces xmlNamespaces = new XmlSerializerNamespaces();
+        xmlNamespaces.Add(string.Empty, string.Empty);
+
+        serializer.Serialize(write, dataTransferObjects, xmlNamespaces);
+
+        return sb.ToString();
     }
 
     private static IMapper CreateMapper()
