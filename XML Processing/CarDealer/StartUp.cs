@@ -1,11 +1,10 @@
 ﻿namespace CarDealer;
 
-using AutoMapper;
-
-using Models;
-using Utilities;
 using DTOs.Import;
+using Models;
 
+using Utilities;
+using AutoMapper;
 using Data;
 
 public class StartUp
@@ -14,47 +13,55 @@ public class StartUp
     {
         CarDealerContext dbContext = new CarDealerContext();
 
-        // 10. Import Suppliers
-        string inputXml = File.ReadAllText("../../../Datasets/suppliers.xml");
-        string result = ImportSuppliers(dbContext, inputXml);
+        string filePath = File.ReadAllText("../../../Datasets/parts.xml");
+        string result = ImportParts(dbContext, filePath);
 
         Console.WriteLine(result);
     }
 
-    public static string ImportSuppliers(CarDealerContext context, string inputXml)
+    public static string ImportSuppliers(CarDealerContext dbContext, string inputXml)
     {
-        IMapper mapper = CreateMapper();
-
         XmlHelper xmlHelper = new XmlHelper();
 
-        ImportSupplierDto[] supplierDtos =
-            xmlHelper.Deserialize<ImportSupplierDto[]>(inputXml, "Suppliers");
+        var suppliersDtos = xmlHelper.Deserializer<ImportSupplierDto[]>(inputXml, "Suppliers");
 
-        ICollection<Supplier> validSuppliers = new HashSet<Supplier>();
-
-        foreach (var supplierDto in supplierDtos)
-        {
-            if (String.IsNullOrEmpty(supplierDto.Name))
+        var suppliers = suppliersDtos
+            .Select(s => new Supplier()
             {
-                continue;
-            }
+                Name = s.Name,
+                IsImporter = s.IsImporter
+            })
+            .ToList();
 
-            // Manual mapping without AutoMappe
-            //Supplier supplier = new Supplier()
-            //{
-            //    Name = supplierDto.Name,
-            //    IsImporter = supplierDto.IsImporter
-            //};
+        dbContext.Suppliers.AddRange(suppliers);
+        // dbContext.SaveChanges();
 
-            Supplier supplier = mapper.Map<Supplier>(supplierDto);
+        return $"Successfully imported {suppliers.Count}";
+    }
 
-            validSuppliers.Add(supplier);
-        }
+    public static string ImportParts(CarDealerContext dbContext, string inputXml)
+    {
+        XmlHelper xmlHelper = new XmlHelper();
 
-        context.Suppliers.AddRange(validSuppliers);
-        context.SaveChanges();
+        var partDtos = xmlHelper.Deserializer<ImportPartDto[]>(inputXml, "Parts");
+        var allSuppliersIds = dbContext.Suppliers.Select(x => x.Id)
+            .ToList();
 
-        return $"Successfully imported {validSuppliers.Count}";
+        var parts = partDtos
+            .Where(x => allSuppliersIds.Contains(x.SupplierId))
+            .Select(p => new Part()
+            {
+                Name = p.Name,
+                Price = p.Price,
+                Quantity = p.Quantity,
+                SupplierId = p.SupplierId
+            })
+            .ToList();
+
+        dbContext.Parts.AddRange(parts);
+        dbContext.SaveChanges();
+
+        return $"Successfully imported {parts.Count}";
     }
 
     private static IMapper CreateMapper()

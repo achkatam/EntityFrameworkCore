@@ -1,15 +1,15 @@
-﻿namespace CarDealer.Models;
-public class Supplier
-{
-    public Supplier()
+﻿namespace CarDealer.Models ;
+    public class Supplier
     {
-        Parts = new HashSet<Part>();
-    }
-    public int Id { get; set; }
+        public Supplier()
+        {
+            this.Parts = new HashSet<Part>();
+        }
+        public int Id { get; set; }
 
-    public string Name { get; set; } = null!;
+        public string Name { get; set; } = null!;
 
-    public bool IsImporter { get; set; }
+        public bool IsImporter { get; set; }
 
-    public virtual ICollection<Part> Parts { get; set; } = new List<Part>();
-}
+        public virtual ICollection<Part> Parts { get; set; }  
+    } 

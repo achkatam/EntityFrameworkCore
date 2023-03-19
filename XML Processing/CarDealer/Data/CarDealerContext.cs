@@ -1,7 +1,8 @@
-﻿using CarDealer.Models;
+﻿namespace CarDealer.Data;
+
+using Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace CarDealer.Data;
 public class CarDealerContext : DbContext
 {
     public CarDealerContext()
