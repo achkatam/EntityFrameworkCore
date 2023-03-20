@@ -18,8 +18,8 @@ public class StartUp
         //string filePath = File.ReadAllText("../../../Datasets/sales.xml");
         //string result = ImportSales(dbContext, filePath);
 
-        string result = GetCarsWithDistance(dbContext);
-        File.WriteAllText(@"../../../Results/cars.xml", result);
+        string result = GetCarsFromMakeBmw(dbContext);
+        File.WriteAllText(@"../../../Results/bmw-cars.xml", result);
 
         Console.WriteLine(result);
     }
@@ -147,6 +147,24 @@ public class StartUp
         return xmlHelper.Serialize<ExportCarWithDistanceDto[]>(cars, "cars");
     }
 
+    public static string GetCarsFromMakeBmw(CarDealerContext context)
+    {
+        XmlHelper xmlHelper = new XmlHelper();
+
+        ExportCarBmwDto[] BMWs = context.Cars
+            .Where(x => x.Make == "BMW")
+            .OrderBy(c => c.Model)
+            .ThenByDescending(c => c.TraveledDistance)
+            .Select(c => new ExportCarBmwDto()
+            {
+                Id = c.Id,
+                Model = c.Model,
+                TraveledDistance = c.TraveledDistance
+            })
+            .ToArray();
+
+        return xmlHelper.Serialize<ExportCarBmwDto[]>(BMWs, "cars");
+    }
     private static IMapper CreateMapper()
         => new Mapper(new MapperConfiguration(cfg =>
         {
