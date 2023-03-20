@@ -1,4 +1,6 @@
-﻿namespace CarDealer;
+﻿using CarDealer.DTOs.Export.Suppliers;
+
+namespace CarDealer;
 
 using DTOs.Export.Car;
 using DTOs.Import.Sales;
@@ -18,8 +20,8 @@ public class StartUp
         //string filePath = File.ReadAllText("../../../Datasets/sales.xml");
         //string result = ImportSales(dbContext, filePath);
 
-        string result = GetCarsFromMakeBmw(dbContext);
-        File.WriteAllText(@"../../../Results/bmw-cars.xml", result);
+        string result = GetLocalSuppliers(dbContext);
+        File.WriteAllText(@"../../../Results/local-suppliers.xml", result);
 
         Console.WriteLine(result);
     }
@@ -164,6 +166,22 @@ public class StartUp
             .ToArray();
 
         return xmlHelper.Serialize<ExportCarBmwDto[]>(BMWs, "cars");
+    }
+    public static string GetLocalSuppliers(CarDealerContext context)
+    {
+        XmlHelper xmlHelper = new XmlHelper();
+
+        ExportSupplierDto[] suppliers = context.Suppliers
+            .Where(s => s.IsImporter == false)
+            .Select(s => new ExportSupplierDto()
+            {
+                Id = s.Id,
+                Name = s.Name,
+                PartsCount = s.Parts.Count
+            })
+            .ToArray();
+
+        return xmlHelper.Serialize<ExportSupplierDto[]>(suppliers, "suppliers");
     }
     private static IMapper CreateMapper()
         => new Mapper(new MapperConfiguration(cfg =>
