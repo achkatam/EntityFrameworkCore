@@ -1,4 +1,6 @@
-﻿using CarDealer.DTOs.Export.Cars;
+﻿using System.Text;
+using CarDealer.DTOs.Export.Cars;
+using CarDealer.DTOs.Export.Customers;
 using CarDealer.DTOs.Export.Parts;
 using CarDealer.DTOs.Export.Suppliers;
 
@@ -12,6 +14,7 @@ using Models;
 using Utilities;
 using AutoMapper;
 using Data;
+using System.Xml.Serialization;
 
 public class StartUp
 {
@@ -22,8 +25,8 @@ public class StartUp
         //string filePath = File.ReadAllText("../../../Datasets/sales.xml");
         //string result = ImportSales(dbContext, filePath);
 
-        string result = GetCarsWithTheirListOfParts(dbContext);
-        File.WriteAllText(@"../../../Results/cars-and-parts.xml", result);
+        string result = GetTotalSalesByCustomer(dbContext);
+        File.WriteAllText(@"../../../Results/customers-total-sales.xml", result);
 
         Console.WriteLine(result);
     }
@@ -211,6 +214,39 @@ public class StartUp
             .ToArray();
 
         return xmlHelper.Serialize<ExportCarWithPartsDto[]>(cars, "cars");
+    }
+    public static string GetTotalSalesByCustomer(CarDealerContext context)
+    {
+        XmlHelper xmlHelper = new XmlHelper();
+
+
+        var customerDtos = context.Customers
+            .Where(c => c.Sales.Any())
+            .Select(c => new
+            {
+                FullName = c.Name,
+                BoughtCars = c.Sales.Count,
+                Sales = c.Sales.Select(s => new
+                    {
+                        Prices = c.IsYoungDriver
+                            ? s.Car.PartsCars.Sum(p => Math.Round((double)p.Part.Price * 0.95, 2))
+                            : s.Car.PartsCars.Sum(p => (double)p.Part.Price)
+                    })
+                    .ToArray()
+            })
+            .ToArray();
+
+        ExportCustomerTotalSalesDto[] customers = customerDtos
+            .OrderByDescending(c => c.Sales.Sum(p => p.Prices))
+            .Select(c => new ExportCustomerTotalSalesDto()
+            {
+                Name = c.FullName,
+                BoughtCars = c.BoughtCars,
+                SpentMoney = c.Sales.Sum(s => s.Prices).ToString("f2")
+            })
+            .ToArray();
+
+        return xmlHelper.Serialize<ExportCustomerTotalSalesDto[]>(customers, "customers");
     }
     private static IMapper CreateMapper()
         => new Mapper(new MapperConfiguration(cfg =>
