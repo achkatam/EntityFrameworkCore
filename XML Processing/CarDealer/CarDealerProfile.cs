@@ -1,7 +1,7 @@
-﻿using CarDealer.DTOs.Import.Customer;
+﻿namespace CarDealer;
 
-namespace CarDealer;
-
+using DTOs.Import.Sales;
+using DTOs.Import.Customer;
 using Models;
 using DTOs.Import;
 using AutoMapper;
@@ -19,5 +19,8 @@ public class CarDealerProfile : Profile
 
         // Customer
         this.CreateMap<ImportCustomerDto, Customer>();
+
+        // Sales
+        this.CreateMap<ImportSaleDto, Sale>();
     }
 }

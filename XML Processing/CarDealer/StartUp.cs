@@ -1,5 +1,6 @@
-﻿namespace CarDealer; 
+﻿namespace CarDealer;
 
+using DTOs.Import.Sales;
 using DTOs.Import.Customer;
 using DTOs.Import;
 using Models;
@@ -13,8 +14,8 @@ public class StartUp
     {
         CarDealerContext dbContext = new CarDealerContext();
 
-        string filePath = File.ReadAllText("../../../Datasets/customers.xml");
-        string result = ImportCustomers(dbContext, filePath);
+        string filePath = File.ReadAllText("../../../Datasets/sales.xml");
+        string result = ImportSales(dbContext, filePath);
 
         Console.WriteLine(result);
     }
@@ -85,20 +86,40 @@ public class StartUp
             customers.Add(customer);
         }
 
-        //var customers = customerDto
-        //    .Select(c => new Customer()
-        //    {
-        //        Name = c.Name,
-        //        BirthDate = c.BirthDate,
-        //        IsYoungDriver = c.IsYoungDriver
-        //    })
-        //    .ToArray();
-
         dbContext.Customers.AddRange(customers);
-         dbContext.SaveChanges();
+        // dbContext.SaveChanges();
 
         return $"Successfully imported {customers.Count()}";
-    } 
+    }
+
+    public static string ImportSales(CarDealerContext dbContext, string inputXml)
+    {
+        XmlHelper xmlHelper = new XmlHelper();
+
+        var saleDto = xmlHelper.Deserializer<ImportSaleDto[]>(inputXml, "Sales");
+
+        var sales = new HashSet<Sale>();
+
+        foreach (var dto in saleDto)
+        {
+            if (!dbContext.Cars.Any(c => c.Id == dto.CarId))
+                continue;
+
+            Sale sale = new Sale()
+            {
+                CarId = dto.CarId,
+                CustomerId = dto.CustomerId,
+                Discount = dto.Discount
+            };
+
+            sales.Add(sale);
+        }
+
+        dbContext.Sales.AddRange(sales);
+        dbContext.SaveChanges();
+
+        return $"Successfully imported {sales.Count}";
+    }
 
     private static IMapper CreateMapper()
         => new Mapper(new MapperConfiguration(cfg =>
