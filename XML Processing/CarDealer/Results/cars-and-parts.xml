@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-16"?>
+<cars>
+  <car make="Opel" model="Astra" traveled-distance="516628215">
+    <parts />
+  </car>
+  <car make="BMW" model="F20" traveled-distance="487897422">
+    <parts />
+  </car>
+  <car make="BMW" model="E67" traveled-distance="476830509">
+    <parts />
+  </car>
+  <car make="BMW" model="F25" traveled-distance="476132712">
+    <parts />
+  </car>
+  <car make="BMW" model="M Roadster E85" traveled-distance="475685374">
+    <parts />
+  </car>
+</cars>

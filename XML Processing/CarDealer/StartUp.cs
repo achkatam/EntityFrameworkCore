@@ -1,4 +1,6 @@
-﻿using CarDealer.DTOs.Export.Suppliers;
+﻿using CarDealer.DTOs.Export.Cars;
+using CarDealer.DTOs.Export.Parts;
+using CarDealer.DTOs.Export.Suppliers;
 
 namespace CarDealer;
 
@@ -20,8 +22,8 @@ public class StartUp
         //string filePath = File.ReadAllText("../../../Datasets/sales.xml");
         //string result = ImportSales(dbContext, filePath);
 
-        string result = GetLocalSuppliers(dbContext);
-        File.WriteAllText(@"../../../Results/local-suppliers.xml", result);
+        string result = GetCarsWithTheirListOfParts(dbContext);
+        File.WriteAllText(@"../../../Results/cars-and-parts.xml", result);
 
         Console.WriteLine(result);
     }
@@ -182,6 +184,33 @@ public class StartUp
             .ToArray();
 
         return xmlHelper.Serialize<ExportSupplierDto[]>(suppliers, "suppliers");
+    }
+
+    public static string GetCarsWithTheirListOfParts(CarDealerContext context)
+    {
+        XmlHelper xmlHelper = new XmlHelper();
+
+        ExportCarWithPartsDto[] cars = context.Cars
+            .Select(c => new ExportCarWithPartsDto
+            {
+                Make = c.Make,
+                Model = c.Model,
+                TraveledDistance = c.TraveledDistance,
+                Parts = c.PartsCars
+                    .Select(p => new ExportPartDto
+                    {
+                        Name = p.Part.Name,
+                        Price = p.Part.Price
+                    })
+                    .OrderByDescending(p => p.Price)
+                    .ToArray()
+            })
+            .OrderByDescending(c => c.TraveledDistance)
+            .ThenBy(c => c.Model)
+            .Take(5)
+            .ToArray();
+
+        return xmlHelper.Serialize<ExportCarWithPartsDto[]>(cars, "cars");
     }
     private static IMapper CreateMapper()
         => new Mapper(new MapperConfiguration(cfg =>
