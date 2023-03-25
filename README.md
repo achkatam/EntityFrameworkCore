@@ -10,3 +10,4 @@ Entity Framework Core by SoftUni
 ### 2. [EntityRelations](https://github.com/achkatam/EntityFrameworkCore/tree/main/EntityRelations)
 ### 3. [LINQ](https://github.com/achkatam/EntityFrameworkCore/tree/main/LINQ)
 ### 4. [AdvancedQueries](https://github.com/achkatam/EntityFrameworkCore/tree/main/AdvancedQueries)
+### 5. [JSON](https://github.com/achkatam/EntityFrameworkCore/tree/main/JavaScript%20Object%20Notation%20-%20JSON%20Processing)
