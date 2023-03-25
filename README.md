@@ -9,3 +9,4 @@ Entity Framework Core by SoftUni
 ### 1. [EntityFramework Introduction](https://github.com/achkatam/EntityFrameworkCore/tree/main/EntityFramework%20Introduction%20Exercise)
 ### 2. [EntityRelations](https://github.com/achkatam/EntityFrameworkCore/tree/main/EntityRelations)
 ### 3. [LINQ](https://github.com/achkatam/EntityFrameworkCore/tree/main/LINQ)
+### 4. [AdvancedQueries](https://github.com/achkatam/EntityFrameworkCore/tree/main/AdvancedQueries)
