@@ -2,10 +2,10 @@
 {
     using System.ComponentModel.DataAnnotations;
     using System.Globalization;
-    using System.Text;
-    using System.Xml;
+    using System.Text; 
     using Data;
     using Data.Models;
+    using Data.Models.Enums;
     using ImportDto;
     using Newtonsoft.Json;
 
@@ -90,7 +90,7 @@
                     game.GameTags.Add(gameTag);
                 }
                 games.Add(game);
-                sb.AppendLine(string.Format(SuccessfullyImportedGame, game.Name, genre.Name ,game.GameTags.Count));
+                sb.AppendLine(string.Format(SuccessfullyImportedGame, game.Name, genre.Name, game.GameTags.Count));
             }
             context.Games.AddRange(games);
             context.SaveChanges();
@@ -100,7 +100,58 @@
 
         public static string ImportUsers(VaporStoreDbContext context, string jsonString)
         {
-            throw new NotImplementedException();
+            var sb = new StringBuilder();
+            var userDtos = JsonConvert.DeserializeObject<UserImportDto[]>(jsonString);
+
+            var users = new HashSet<User>();
+
+            foreach (var userDto in userDtos)
+            {
+                if (!IsValid(userDto)
+                    || string.IsNullOrEmpty(userDto.Email)
+                    || !userDto.Cards.Any()
+                    || string.IsNullOrWhiteSpace(userDto.FullName))
+                {
+                    sb.AppendLine(ErrorMessage);
+                    continue;
+                }
+
+                User user = new User()
+                {
+                    FullName = userDto.FullName,
+                    Username = userDto.Username,
+                    Email = userDto.Email,
+                    Age = userDto.Age
+                };
+
+                foreach (var cardDto in userDto.Cards)
+                {
+                    bool cardTypeCheck = Enum.TryParse<CardType>(cardDto.Type, out CardType validCardType);
+
+                    if (!IsValid(cardDto)
+                        || !cardTypeCheck)
+                    {
+                        sb.AppendLine(ErrorMessage);
+                        continue;
+                    }
+
+                    Card card = new Card()
+                    {
+                        Number = cardDto.Number,
+                        Cvc = cardDto.Cvc,
+                        Type = validCardType
+                    };
+
+                    user.Cards.Add(card);
+                }
+
+                users.Add(user);
+                sb.AppendLine(string.Format(SuccessfullyImportedUser, user.Username, user.Cards.Count));
+            }
+            context.Users.AddRange(users);
+            context.SaveChanges();
+
+            return sb.ToString().TrimEnd();
         }
 
         public static string ImportPurchases(VaporStoreDbContext context, string xmlString)
