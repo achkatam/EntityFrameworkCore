@@ -4,7 +4,7 @@
     <Purchases>
       <Purchase>
         <Card>7991 7779 5123 9211</Card>
-        <Cvc>340</Cvc>
+        <CVC>340</CVC>
         <Date>2017-08-31 17:09</Date>
         <Game title="Counter-Strike: Global Offensive">
           <Genre>Action</Genre>
@@ -13,7 +13,7 @@
       </Purchase>
       <Purchase>
         <Card>7790 7962 4262 5606</Card>
-        <Cvc>966</Cvc>
+        <CVC>966</CVC>
         <Date>2018-02-28 08:38</Date>
         <Game title="Tom Clancy's Ghost Recon Wildlands">
           <Genre>Action</Genre>
@@ -27,7 +27,7 @@
     <Purchases>
       <Purchase>
         <Card>8608 6806 8238 3092</Card>
-        <Cvc>081</Cvc>
+        <CVC>081</CVC>
         <Date>2017-10-01 01:14</Date>
         <Game title="Garry's Mod">
           <Genre>Indie</Genre>
@@ -36,7 +36,7 @@
       </Purchase>
       <Purchase>
         <Card>4846 1275 4235 3039</Card>
-        <Cvc>268</Cvc>
+        <CVC>268</CVC>
         <Date>2017-11-12 03:51</Date>
         <Game title="Total War: WARHAMMER II">
           <Genre>Action</Genre>
@@ -50,7 +50,7 @@
     <Purchases>
       <Purchase>
         <Card>7460 6498 2791 0231</Card>
-        <Cvc>068</Cvc>
+        <CVC>068</CVC>
         <Date>2017-12-27 05:10</Date>
         <Game title="Counter-Strike: Global Offensive">
           <Genre>Action</Genre>
@@ -59,7 +59,7 @@
       </Purchase>
       <Purchase>
         <Card>7460 6498 2791 0231</Card>
-        <Cvc>068</Cvc>
+        <CVC>068</CVC>
         <Date>2018-08-31 15:55</Date>
         <Game title="Conan Exiles">
           <Genre>Nudity</Genre>
@@ -73,7 +73,7 @@
     <Purchases>
       <Purchase>
         <Card>6975 1775 3435 4897</Card>
-        <Cvc>857</Cvc>
+        <CVC>857</CVC>
         <Date>2016-04-27 18:40</Date>
         <Game title="NBA 2K18">
           <Genre>Simulation</Genre>
@@ -82,7 +82,7 @@
       </Purchase>
       <Purchase>
         <Card>6975 1775 3435 4897</Card>
-        <Cvc>857</Cvc>
+        <CVC>857</CVC>
         <Date>2018-06-22 12:45</Date>
         <Game title="Warframe">
           <Genre>Violent</Genre>
@@ -96,7 +96,7 @@
     <Purchases>
       <Purchase>
         <Card>5208 8381 5687 8508</Card>
-        <Cvc>624</Cvc>
+        <CVC>624</CVC>
         <Date>2016-04-10 17:40</Date>
         <Game title="Yu-Gi-Oh! Duel Links">
           <Genre>Free to Play</Genre>
@@ -105,7 +105,7 @@
       </Purchase>
       <Purchase>
         <Card>5208 8381 5687 8508</Card>
-        <Cvc>624</Cvc>
+        <CVC>624</CVC>
         <Date>2016-06-29 10:42</Date>
         <Game title="NARUTO SHIPPUDEN: Ultimate Ninja STORM 4">
           <Genre>Action</Genre>
@@ -114,7 +114,7 @@
       </Purchase>
       <Purchase>
         <Card>5208 8381 5687 8508</Card>
-        <Cvc>624</Cvc>
+        <CVC>624</CVC>
         <Date>2018-01-11 19:46</Date>
         <Game title="Slay the Spire">
           <Genre>Indie</Genre>
@@ -128,7 +128,7 @@
     <Purchases>
       <Purchase>
         <Card>3863 8683 6862 0373</Card>
-        <Cvc>640</Cvc>
+        <CVC>640</CVC>
         <Date>2018-06-18 15:45</Date>
         <Game title="Divinity: Original Sin 2">
           <Genre>Adventure</Genre>
@@ -142,7 +142,7 @@
     <Purchases>
       <Purchase>
         <Card>1268 2352 8506 0500</Card>
-        <Cvc>693</Cvc>
+        <CVC>693</CVC>
         <Date>2017-07-05 05:17</Date>
         <Game title="Wreckfest">
           <Genre>Action</Genre>
@@ -156,7 +156,7 @@
     <Purchases>
       <Purchase>
         <Card>7716 6230 0769 9366</Card>
-        <Cvc>656</Cvc>
+        <CVC>656</CVC>
         <Date>2018-07-04 18:07</Date>
         <Game title="Planet Coaster">
           <Genre>Simulation</Genre>
@@ -170,7 +170,7 @@
     <Purchases>
       <Purchase>
         <Card>0798 3871 2521 2016</Card>
-        <Cvc>036</Cvc>
+        <CVC>036</CVC>
         <Date>2017-03-27 18:19</Date>
         <Game title="Rust">
           <Genre>Nudity</Genre>
@@ -184,7 +184,7 @@
     <Purchases>
       <Purchase>
         <Card>5994 2396 1516 2411</Card>
-        <Cvc>318</Cvc>
+        <CVC>318</CVC>
         <Date>2016-09-28 07:57</Date>
         <Game title="The Witcher 3: Wild Hunt">
           <Genre>Nudity</Genre>
@@ -198,7 +198,7 @@
     <Purchases>
       <Purchase>
         <Card>7036 3344 0149 7880</Card>
-        <Cvc>094</Cvc>
+        <CVC>094</CVC>
         <Date>2017-02-04 00:11</Date>
         <Game title="Brawlhalla">
           <Genre>Action</Genre>
@@ -207,7 +207,7 @@
       </Purchase>
       <Purchase>
         <Card>7036 3344 0149 7880</Card>
-        <Cvc>094</Cvc>
+        <CVC>094</CVC>
         <Date>2018-01-22 11:51</Date>
         <Game title="NARUTO SHIPPUDEN: Ultimate Ninja STORM 4">
           <Genre>Action</Genre>
@@ -221,7 +221,7 @@
     <Purchases>
       <Purchase>
         <Card>5103 9356 9768 6854</Card>
-        <Cvc>493</Cvc>
+        <CVC>493</CVC>
         <Date>2016-09-12 22:11</Date>
         <Game title="FOR HONOR">
           <Genre>Action</Genre>
@@ -230,7 +230,7 @@
       </Purchase>
       <Purchase>
         <Card>5103 9356 9768 6854</Card>
-        <Cvc>493</Cvc>
+        <CVC>493</CVC>
         <Date>2016-12-03 23:16</Date>
         <Game title="Neverwinter">
           <Genre>Adventure</Genre>
@@ -239,7 +239,7 @@
       </Purchase>
       <Purchase>
         <Card>5103 9356 9768 6854</Card>
-        <Cvc>493</Cvc>
+        <CVC>493</CVC>
         <Date>2017-01-20 21:52</Date>
         <Game title="Tom Clancy's Rainbow Six Siege">
           <Genre>Action</Genre>
@@ -253,7 +253,7 @@
     <Purchases>
       <Purchase>
         <Card>5811 6621 2962 1020</Card>
-        <Cvc>375</Cvc>
+        <CVC>375</CVC>
         <Date>2016-02-21 22:11</Date>
         <Game title="RimWorld">
           <Genre>Indie</Genre>
@@ -267,7 +267,7 @@
     <Purchases>
       <Purchase>
         <Card>9185 2070 3009 4543</Card>
-        <Cvc>518</Cvc>
+        <CVC>518</CVC>
         <Date>2016-09-08 02:54</Date>
         <Game title="Rules Of Survival">
           <Genre>Action</Genre>
@@ -276,7 +276,7 @@
       </Purchase>
       <Purchase>
         <Card>9185 2070 3009 4543</Card>
-        <Cvc>518</Cvc>
+        <CVC>518</CVC>
         <Date>2018-07-25 18:31</Date>
         <Game title="House Flipper">
           <Genre>Indie</Genre>
@@ -290,7 +290,7 @@
     <Purchases>
       <Purchase>
         <Card>4499 3123 4695 9542</Card>
-        <Cvc>444</Cvc>
+        <CVC>444</CVC>
         <Date>2016-07-20 05:12</Date>
         <Game title="Banished">
           <Genre>Indie</Genre>
@@ -304,7 +304,7 @@
     <Purchases>
       <Purchase>
         <Card>0327 7877 3023 9451</Card>
-        <Cvc>939</Cvc>
+        <CVC>939</CVC>
         <Date>2017-09-10 04:11</Date>
         <Game title="Rocket League">
           <Genre>Action</Genre>
@@ -318,7 +318,7 @@
     <Purchases>
       <Purchase>
         <Card>1833 5024 0553 6211</Card>
-        <Cvc>903</Cvc>
+        <CVC>903</CVC>
         <Date>2016-12-07 05:49</Date>
         <Game title="Dungeon Warfare 2">
           <Genre>Indie</Genre>
@@ -332,7 +332,7 @@
     <Purchases>
       <Purchase>
         <Card>2263 5851 7894 9441</Card>
-        <Cvc>192</Cvc>
+        <CVC>192</CVC>
         <Date>2017-07-31 12:07</Date>
         <Game title="FINAL FANTASY XIV Online">
           <Genre>Massively Multiplayer</Genre>
@@ -346,7 +346,7 @@
     <Purchases>
       <Purchase>
         <Card>4611 7969 4921 6749</Card>
-        <Cvc>519</Cvc>
+        <CVC>519</CVC>
         <Date>2018-02-03 06:38</Date>
         <Game title="Bridge Constructor Portal">
           <Genre>Simulation</Genre>
@@ -360,7 +360,7 @@
     <Purchases>
       <Purchase>
         <Card>6842 0546 4406 5606</Card>
-        <Cvc>538</Cvc>
+        <CVC>538</CVC>
         <Date>2017-05-16 04:34</Date>
         <Game title="Black Desert Online">
           <Genre>Violent</Genre>
@@ -374,7 +374,7 @@
     <Purchases>
       <Purchase>
         <Card>2962 0872 0998 4724</Card>
-        <Cvc>638</Cvc>
+        <CVC>638</CVC>
         <Date>2017-01-03 16:28</Date>
         <Game title="Terraria">
           <Genre>Action</Genre>
@@ -383,7 +383,7 @@
       </Purchase>
       <Purchase>
         <Card>0540 4834 3653 5943</Card>
-        <Cvc>943</Cvc>
+        <CVC>943</CVC>
         <Date>2017-09-25 05:40</Date>
         <Game title="Warface">
           <Genre>Action</Genre>
@@ -397,7 +397,7 @@
     <Purchases>
       <Purchase>
         <Card>1642 7380 2920 7598</Card>
-        <Cvc>908</Cvc>
+        <CVC>908</CVC>
         <Date>2016-08-29 05:17</Date>
         <Game title="Path of Exile">
           <Genre>Nudity</Genre>
@@ -406,7 +406,7 @@
       </Purchase>
       <Purchase>
         <Card>2175 1623 6855 0876</Card>
-        <Cvc>760</Cvc>
+        <CVC>760</CVC>
         <Date>2017-12-12 09:46</Date>
         <Game title="Terraria">
           <Genre>Action</Genre>
@@ -420,7 +420,7 @@
     <Purchases>
       <Purchase>
         <Card>3762 5646 9250 3278</Card>
-        <Cvc>111</Cvc>
+        <CVC>111</CVC>
         <Date>2017-10-30 10:16</Date>
         <Game title="Neverwinter">
           <Genre>Adventure</Genre>
@@ -434,7 +434,7 @@
     <Purchases>
       <Purchase>
         <Card>3563 6747 1527 9955</Card>
-        <Cvc>727</Cvc>
+        <CVC>727</CVC>
         <Date>2017-08-26 16:56</Date>
         <Game title="Brawlhalla">
           <Genre>Action</Genre>
@@ -448,7 +448,7 @@
     <Purchases>
       <Purchase>
         <Card>9574 1800 3833 2972</Card>
-        <Cvc>512</Cvc>
+        <CVC>512</CVC>
         <Date>2016-04-16 14:45</Date>
         <Game title="Brawlhalla">
           <Genre>Action</Genre>
@@ -457,7 +457,7 @@
       </Purchase>
       <Purchase>
         <Card>9574 1800 3833 2972</Card>
-        <Cvc>512</Cvc>
+        <CVC>512</CVC>
         <Date>2016-04-25 13:53</Date>
         <Game title="Team Fortress 2">
           <Genre>Action</Genre>
@@ -471,7 +471,7 @@
     <Purchases>
       <Purchase>
         <Card>9466 9592 0503 1368</Card>
-        <Cvc>753</Cvc>
+        <CVC>753</CVC>
         <Date>2016-02-02 19:38</Date>
         <Game title="Warframe">
           <Genre>Violent</Genre>
@@ -485,7 +485,7 @@
     <Purchases>
       <Purchase>
         <Card>5317 5177 3653 0084</Card>
-        <Cvc>963</Cvc>
+        <CVC>963</CVC>
         <Date>2017-08-25 06:12</Date>
         <Game title="Warframe">
           <Genre>Violent</Genre>
@@ -499,7 +499,7 @@
     <Purchases>
       <Purchase>
         <Card>5747 3965 9959 7596</Card>
-        <Cvc>463</Cvc>
+        <CVC>463</CVC>
         <Date>2016-09-08 17:07</Date>
         <Game title="SMITE">
           <Genre>Action</Genre>
@@ -508,7 +508,7 @@
       </Purchase>
       <Purchase>
         <Card>5747 3965 9959 7596</Card>
-        <Cvc>463</Cvc>
+        <CVC>463</CVC>
         <Date>2017-12-05 17:03</Date>
         <Game title="Path of Exile">
           <Genre>Nudity</Genre>
