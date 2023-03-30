@@ -2,10 +2,11 @@
 {
     using System.ComponentModel.DataAnnotations;
     using System.Globalization;
-    using System.Text; 
+    using System.Text;
     using Data;
     using Data.Models;
     using Data.Models.Enums;
+    using Data.Utilities;
     using ImportDto;
     using Newtonsoft.Json;
 
@@ -156,7 +157,46 @@
 
         public static string ImportPurchases(VaporStoreDbContext context, string xmlString)
         {
-            throw new NotImplementedException();
+            var sb = new StringBuilder();
+            XmlHelper xmlHelper = new XmlHelper();
+
+            var purchaseDtos = xmlHelper.Deserializer<PurchaseImportDto[]>(xmlString, "Purchases");
+
+            var purchases = new HashSet<Purchase>();
+
+            foreach (var purchaseDto in purchaseDtos)
+            {
+                bool dateCheck = DateTime.TryParseExact(purchaseDto.Date, "dd/MM/yyyy HH:mm",
+                    CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime dateTime);
+
+                bool purchaseTypeCheck = Enum.TryParse(purchaseDto.Type, out PurchaseType purchaseType);
+
+
+                if (!IsValid(purchaseDto)
+                    || !dateCheck
+                    || !purchaseTypeCheck)
+                {
+                    sb.AppendLine(ErrorMessage);
+                    continue;
+                }
+
+                Purchase purchase = new Purchase()
+                {
+                    ProductKey = purchaseDto.Key,
+                    Card = context.Cards.First(x => x.Number == purchaseDto.Card),
+                    Game = context.Games.First(g => g.Name == purchaseDto.GameTitle),
+                    Type = purchaseType,
+                    Date = dateTime
+                };
+
+                purchases.Add(purchase);
+                sb.AppendLine(string.Format(SuccessfullyImportedPurchase, purchase.Game.Name, purchase.Card.User.Username));
+            }
+
+            context.Purchases.AddRange(purchases);
+            context.SaveChanges();
+
+            return sb.ToString().TrimEnd();
         }
 
         private static bool IsValid(object dto)
